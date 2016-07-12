@@ -1,0 +1,33 @@
+%h4 Pink stuff is orders, blue is line items
+%ul
+  - @orders.each do |order|
+    = form_for order, html: {class: "red"} do |f|
+      = f.text_field :customer
+      = f.text_field :order_date
+      = f.object.inspect
+      = f.fields_for :line_items do |builder|
+        %fieldset.blue
+          = builder.text_field :quantity
+          = builder.text_field :product
+      = f.submit
+= form_for @order, html: {class: "red"} do |f|
+  = f.text_field :customer
+  = f.text_field :order_date
+  = f.object.inspect
+  = f.fields_for :line_items do |builder|
+    %fieldset.blue
+      = builder.text_field :quantity
+      = builder.text_field :product
+  = f.submit
+
+%hr
+
+%h4 Here's just listing everything out
+
+%ul
+  - @orders.each do |order|
+    %li.red
+      %h3= "#{order.customer} on #{order.order_date}"
+      %ul
+        - order.line_items.each do |line_item|
+          %li.blue= "#{line_item.quantity} #{line_item.product}"
